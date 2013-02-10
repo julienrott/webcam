@@ -58,11 +58,11 @@ grails.project.dependency.resolution = {
 		runtime ":twitter-bootstrap:2.1.0"
         compile ":spring-security-core:1.2.7.3"
 		//runtime ":atmosphere:0.4.2"
-		runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
+		/*runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
 			exclude 'slf4j-api'
-		}
+		}*/
 		compile (":events-push:1.0.M7") {
-		  exclude "org.atmosphere:atmosphere-runtime:1.1.0-SNAPSHOT"
+		  //exclude "org.atmosphere:atmosphere-runtime:1.1.0-SNAPSHOT"
 	  }
     }
 }

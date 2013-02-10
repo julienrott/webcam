@@ -64,5 +64,6 @@ grails.project.dependency.resolution = {
 		compile (":events-push:1.0.M7") {
 		  //exclude "org.atmosphere:atmosphere-runtime:1.1.0-SNAPSHOT"
 	  }
+	  runtime "org.eclipse.jetty:jetty-servlet:8.1.9.v20130131"
     }
 }

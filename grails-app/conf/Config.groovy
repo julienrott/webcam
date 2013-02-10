@@ -105,3 +105,5 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.webcam.Person'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.webcam.PersonRole'
 grails.plugins.springsecurity.authority.className = 'com.webcam.Role'
+
+grails.plugin.cloudfoundry.appname = 'twel'

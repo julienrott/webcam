@@ -59,6 +59,6 @@ grails.project.dependency.resolution = {
 		/*runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
 			exclude 'slf4j-api'
 		}*/
-		//runtime ":events-push:1.0.M7"
+		compile ":events-push:1.0.M7"
     }
 }

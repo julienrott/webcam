@@ -30,6 +30,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repo1.maven.org/maven2/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -56,9 +57,9 @@ grails.project.dependency.resolution = {
 		runtime ":twitter-bootstrap:2.1.0"
         compile ":spring-security-core:1.2.7.3"
 		//runtime ":atmosphere:0.4.2"
-		/*runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
+		runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
 			exclude 'slf4j-api'
-		}*/
+		}
 		compile ":events-push:1.0.M7"
     }
 }

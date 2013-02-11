@@ -10,9 +10,9 @@ class UrlMappings {
 		"/"(view:"/index")
 		"500"(view:'/error')
 		
-		name user: "/$username"{
+		/*name user: "/$username"{
 			controller = "user"
 			action = "user"
-		}
+		}*/
 	}
 }

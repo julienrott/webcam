@@ -31,12 +31,20 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
         mavenRepo "http://repo1.maven.org/maven2/"
-        mavenRepo "https://maven-us.nuxeo.org/nexus/content/groups/thirdparty-snapshots/"
+        //mavenRepo "https://maven-us.nuxeo.org/nexus/content/groups/thirdparty-snapshots/"
+        mavenRepo "http://files.couchbase.com/maven2"
+        mavenRepo "https://oss.sonatype.org/content/repositories/releases/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.20'
+        
+        compile "com.github.jsimone:webapp-runner:7.0.34.1"
+        
+        compile('org.atmosphere:atmosphere-runtime:1.1.0.beta3') {
+          excludes 'slf4j-api', 'atmosphere-ping'
+        }
     }
 
     plugins {
@@ -57,13 +65,29 @@ grails.project.dependency.resolution = {
 		
 		runtime ":twitter-bootstrap:2.1.0"
         compile ":spring-security-core:1.2.7.3"
-		//runtime ":atmosphere:0.4.2"
-		/*runtime ("org.atmosphere:atmosphere-runtime:1.1.0.beta3") {
-			exclude 'slf4j-api'
+		
+		/*compile (":atmosphere:0.4.2.3") {
+		  //exclude 'org.atmosphere:atmosphere-runtime:0.8.1'
+		  //exclude 'atmosphere-compat-jetty'
 		}*/
+		
 		compile (":events-push:1.0.M7") {
 		  //exclude "org.atmosphere:atmosphere-runtime:1.1.0-SNAPSHOT"
+		  //exclude "atmosphere-runtime"
 	  }
+	  
+	  /*compile('org.atmosphere:atmosphere-runtime:0.9.0.RC3') {
+      excludes 'slf4j-api', 'atmosphere-ping'
+    }*/
+    
+	  /*compile ("org.atmosphere:atmosphere-runtime:1.0.0.RC1") {
+			exclude 'slf4j-api'
+		}*/
+		
 	  //runtime "org.mortbay.jetty:jetty-runner:8.1.9.v20130131"
+	  //compile "org.mortbay.jetty:jetty-websocket:8.1.0.RC5"
+	  //compile "org.atmosphere:atmosphere-jetty-websocketdraft8:1.0.0.RC1"
+	  
+	  //compile "com.github.jsimone:webapp-runner:7.0.34.1"
     }
 }

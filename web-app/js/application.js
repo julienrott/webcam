@@ -8,6 +8,7 @@ if (typeof jQuery !== 'undefined') {
 	})(jQuery);
 }
 
+url = window.location.protocol + "//" + window.location.host
 var grailsEvents = new grails.Events(url, {transport:'sse'});
 
 $(function() {

@@ -13,7 +13,7 @@
 			<div class="row">
 				<g:link uri="/">Home</g:link>
 				<sec:ifLoggedIn>
-					<g:link uri="/${sec.username() }"><sec:username/></g:link> (<g:link controller="logout">Logout</g:link>)
+					<g:link controller="user" action="user" params="${[username:sec.username()]}"><sec:username/></g:link> (<g:link controller="logout">Logout</g:link>)
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>
 					<g:link controller="login">Login</g:link>

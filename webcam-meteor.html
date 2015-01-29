@@ -1,14 +1,22 @@
 <head>
   <title>webcam-meteor</title>
+
 </head>
 
 <body>
   <h1>Welcome to Meteor! :)</h1>
+  
+	<div class="btn-group">
+	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	        Themes <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu themes" role="menu"></ul>
+	</div>
 
   {{> hello}}
 </body>
 
 <template name="hello">
-  <button>Click Me</button>
+<button type="button" class="btn btn-primary">Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
 </template>

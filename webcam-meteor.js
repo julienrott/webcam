@@ -14,6 +14,10 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });
+
+  $(document).ready(function() {
+    $('.themes').bootswatch();
+  });
 }
 
 if (Meteor.isServer) {

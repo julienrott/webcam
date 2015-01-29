@@ -1,1 +1,15 @@
 /* CSS declarations go here */
+
+.local-video {
+	background-color: #eee;
+	width: 100%;
+}
+
+.remote-video {
+	background-color: #eee;
+	width: 100%;
+}
+
+#step1-error, #step2, #step3 {
+  display: none;
+}

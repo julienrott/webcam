@@ -10,6 +10,6 @@
 	width: 100%;
 }
 
-#step1-error, #step2, #step3 {
+#step1-error, #step3, .call-button {
   display: none;
 }

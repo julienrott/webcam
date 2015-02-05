@@ -10,24 +10,23 @@ Meteor.methods({
 		return 'a56y7p5nq871ra4i';
 	},
 
+	updatePeerId: function(peerId) {
+		Meteor.users.update({_id: this.userId}, {$set:{peerId: peerId}});
+	},
+
 	gotoDashboard: function() {
 		Meteor.users.update({_id: this.userId}, {$set: {gotoDashboard: false}});
 	}
 });
 
 Accounts.onLogin(function(a) {
-	console.log("Accounts.onLogin")
-	console.log("just logged in user id : ", a.user._id)
 	Meteor.users.update({_id: a.user._id}, {$set: {gotoDashboard: true}});
-	//Meteor.Router.go('Dashboard');
 });
 
 Meteor.publish("gotoDashboard", function() {
-	console.log("Meteor publish gotoDashboard id : ", this.userId);
 	return Meteor.users.find({_id: this.userId}, {fields: {gotoDashboard: 1}});
 });
 
 Meteor.publish("onlineUsers", function() {
-	console.log("Meteor publish onlineUsers id : ", this.userId);
 	return Meteor.users.find({"status.online": true});
 });

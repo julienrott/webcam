@@ -10,8 +10,9 @@ var getPeer = function() {
 var setPeer = function(newPeer) {
 	peer = newPeer;
 
-	peer.on('open', function(id) {
-		peerDep.changed();
+  peer.on('open', function(id) {
+    Meteor.call("updatePeerId", peer.id);
+    peerDep.changed();
 	});
 
 	peer.on('call', function(call){
@@ -23,26 +24,23 @@ var setPeer = function(newPeer) {
   peer.on('error', function(err){
     console.error(err.type);
     console.error(err.message);
-    if(err.type === 'unavailable-id') {
-      //peer.reconnect();
-      //step1();
-      Meteor.setTimeout(function() {
-        createPeer();
-      }, 3000);
-    }
-    else if(err.type === 'network') {
+    /*Meteor.setTimeout(function() {
       createPeer();
-    }
-    else {
-      console.error(err.type);
-      console.error(err.message);
-      // Return to step 2 if error occurs
-      step2();
-    }
+      //window.location.reload();
+    }, 5000);*/
+    //step2();/
   });
 
 	peerDep.changed();
 };
+
+Template.sidebar.events({
+  "click #end-call": function(event, template) {
+    window.existingCall.close();
+    step2();
+    return false;
+  }
+});
 
 Template.sidebar.helpers({
 	peerId: function() {
@@ -74,7 +72,8 @@ Template.userInfos.helpers({
 
 Template.onlineUsers.events({
   "click button": function() {
-    var call = peer.call("AlloDoc_" + this._id, window.localStream);
+    //var call = peer.call("AlloDoc_" + this._id, window.localStream);
+    var call = peer.call(this.peerId, window.localStream);
     step3(call);
     return false;
   }
@@ -91,7 +90,6 @@ Template.onlineUsers.helpers({
 
   onlineUsers: function() {
     var onlineUsers = Meteor.users.find({"status.online": true});
-    console.log("onlineUsers : " + onlineUsers.fetch());
     return onlineUsers;
   },
 
@@ -106,18 +104,6 @@ Template.onlineUsers.helpers({
 });
 
 Template.main.events({
-	"click #make-call": function(event, template) {
-    var call = peer.call($('#callto-id').val(), window.localStream);
-    step3(call);
-    return false;
-	},
-
-	"click #end-call": function(event, template) {
-		window.existingCall.close();
-    step2();
-    return false;
-	},
-
 	"click #step1-retry": function(event, template) {
 		$('#step1-error').hide();
     step1();
@@ -125,7 +111,7 @@ Template.main.events({
 	}
 });
 
-function step1 () {
+function step1() {
   // Get audio/video stream
   navigator.getUserMedia({audio: true, video: true}, function(stream) {
     // Set your video displays
@@ -136,12 +122,12 @@ function step1 () {
   }, function(){ $('#step1-error').show(); });
 }
 
-function step2 () {
+function step2() {
   $('#step1, #step3').hide();
-  $('#step2').show();
+  $('.call-button').show();
 }
 
-function step3 (call) {
+function step3(call) {
   // Hang up on an existing call if present
   if (window.existingCall) {
     window.existingCall.close();
@@ -154,31 +140,20 @@ function step3 (call) {
 
   // UI stuff
   window.existingCall = call;
-  $('#their-id').text(call.peer);
   call.on('close', step2);
-  $('#step1, #step2').hide();
+  $('#step1').hide();
   $('#step3').show();
+  $('.call-button').show();
 }
 
 $(document).ready(function() {
 	$('.themes').bootswatch();
 
-	//step1();
-
   Tracker.autorun(function(c) {
-    console.log("Tracker 1");
-    /*if(!Meteor.userId()) {
-      console.log("Tracker 2");
-      return;
-    }
-    console.log("Tracker 3");
-    c.stop();*/
-
     var gotoDashboard2 = Meteor.users.find({_id: Meteor.userId()});
 
     gotoDashboard2.observe({
       added: function(document) {
-        console.log("gotoDashboard2 observe added ", document);
         if(document.gotoDashboard) {
           Meteor.call('gotoDashboard', function(err, result) {
             createPeer();
@@ -187,7 +162,6 @@ $(document).ready(function() {
         }
       },
       changed: function(newDocument, oldDocument) {
-        console.log("gotoDashboard2 observe changed ", newDocument, oldDocument);
         if(newDocument.gotoDashboard) {
           Meteor.call('gotoDashboard', function(err, result) {
             createPeer();
@@ -202,19 +176,17 @@ $(document).ready(function() {
 });
 
 var gotoDashboard = Meteor.subscribe("gotoDashboard", {}, function() {
-  console.log("Meteor subscribe gotoDashboard");
 });
 
 var createPeer = function() {
 
   Meteor.call('getPeerjsApiKey', function(err, apikey) {
     var peerId = "AlloDoc_" + Meteor.userId();
-    var this_peer = new Peer(peerId, {key: apikey});
+    var this_peer = new Peer(/*null,*/ {/*key: apikey,*/ host: "allodoc-server.herokuapp.com", port: 80, debug: 3});
     setPeer(this_peer);
   });
 
 };
 
 Meteor.subscribe("onlineUsers", {}, function() {
-  console.log("Meteor subscribe onlineUsers");
 });

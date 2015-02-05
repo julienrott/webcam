@@ -1,0 +1,42 @@
+<template name="layoutMain">
+
+	<div class="container-fluid">
+
+		<div class="row">
+			{{> header}}
+		</div>
+
+		<div class="row">
+		
+		    <!-- Get local audio/video stream -->
+		    <div id="step1" class="col-md-12">
+
+		      <p class="bg-info">Veuillez autoriser votre navigateur à utiliser vos webcam et micro pour passer des appels.</p>
+
+		      <div id="step1-error">
+
+		        <p class="bg-danger">Le navigateur ne peut pas accéder à vos webcam et micro, veuillez réessayer.</p>
+
+		      </div>
+
+		      <a href="#" class="btn btn-success" id="step1-retry">Activer ma webcam</a>
+
+		    </div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				{{> sidebar}}
+			</div>
+
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+				{{> main}}
+			</div>
+
+		</div>
+	
+	</div>
+
+</template>

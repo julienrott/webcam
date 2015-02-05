@@ -5,7 +5,10 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
 insecure
 sergeyt:jquery-bootswatch
 mrt:bootstrap-3
+accounts-password
+iron:router
+ian:accounts-ui-bootstrap-3
+mizzao:user-status

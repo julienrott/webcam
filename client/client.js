@@ -21,9 +21,24 @@ var setPeer = function(newPeer) {
   });
 
   peer.on('error', function(err){
-    alert(err.message);
-    // Return to step 2 if error occurs
-    step2();
+    console.error(err.type);
+    console.error(err.message);
+    if(err.type === 'unavailable-id') {
+      //peer.reconnect();
+      //step1();
+      Meteor.setTimeout(function() {
+        createPeer();
+      }, 3000);
+    }
+    else if(err.type === 'network') {
+      createPeer();
+    }
+    else {
+      console.error(err.type);
+      console.error(err.message);
+      // Return to step 2 if error occurs
+      step2();
+    }
   });
 
 	peerDep.changed();
@@ -39,6 +54,55 @@ Template.sidebar.helpers({
 			return "Not yet connected.";
 		}
 	}
+});
+
+Template.userInfos.events({
+  
+});
+
+Template.layoutMain.events({
+  "click #step1-retry": function(event, template) {
+    $('#step1-error').hide();
+    step1();
+    return false;
+  }
+});
+
+Template.userInfos.helpers({
+  
+});
+
+Template.onlineUsers.events({
+  "click button": function() {
+    var call = peer.call("AlloDoc_" + this._id, window.localStream);
+    step3(call);
+    return false;
+  }
+});
+
+Template.onlineUsers.helpers({
+  username: function() {
+    return this.emails[0].address;
+  },
+
+  displayCallButton: function() {
+    return this._id !== Meteor.userId();
+  },
+
+  onlineUsers: function() {
+    var onlineUsers = Meteor.users.find({"status.online": true});
+    console.log("onlineUsers : " + onlineUsers.fetch());
+    return onlineUsers;
+  },
+
+  labelClass: function() {
+    if (this.status.idle)
+      return "label-warning"
+    else if (this.status.online)
+      return "label-success"
+    else
+      return "label-default"
+  }
 });
 
 Template.main.events({
@@ -99,11 +163,58 @@ function step3 (call) {
 $(document).ready(function() {
 	$('.themes').bootswatch();
 
-	Meteor.call('getPeerjsApiKey', function(err, apikey) {
-		var this_peer = new Peer({key: apikey});
-		setPeer(this_peer);
-	});
+	//step1();
 
-	step1();
+  Tracker.autorun(function(c) {
+    console.log("Tracker 1");
+    /*if(!Meteor.userId()) {
+      console.log("Tracker 2");
+      return;
+    }
+    console.log("Tracker 3");
+    c.stop();*/
 
+    var gotoDashboard2 = Meteor.users.find({_id: Meteor.userId()});
+
+    gotoDashboard2.observe({
+      added: function(document) {
+        console.log("gotoDashboard2 observe added ", document);
+        if(document.gotoDashboard) {
+          Meteor.call('gotoDashboard', function(err, result) {
+            createPeer();
+            Router.go('Dashboard');
+          });
+        }
+      },
+      changed: function(newDocument, oldDocument) {
+        console.log("gotoDashboard2 observe changed ", newDocument, oldDocument);
+        if(newDocument.gotoDashboard) {
+          Meteor.call('gotoDashboard', function(err, result) {
+            createPeer();
+            Router.go('Dashboard');
+          });
+        }
+      }
+    });
+
+  });
+
+});
+
+var gotoDashboard = Meteor.subscribe("gotoDashboard", {}, function() {
+  console.log("Meteor subscribe gotoDashboard");
+});
+
+var createPeer = function() {
+
+  Meteor.call('getPeerjsApiKey', function(err, apikey) {
+    var peerId = "AlloDoc_" + Meteor.userId();
+    var this_peer = new Peer(peerId, {key: apikey});
+    setPeer(this_peer);
+  });
+
+};
+
+Meteor.subscribe("onlineUsers", {}, function() {
+  console.log("Meteor subscribe onlineUsers");
 });

@@ -1,0 +1,10 @@
+<template name="userInfos">
+
+	<p><a href="/">Home</a></p>
+	{{#if currentUser}}
+		{{#with currentUser}}
+			<p><a href="/dashboard">Dashboard</a></p>
+		{{/with}}
+	{{/if}}
+
+</template>

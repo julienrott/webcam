@@ -1,0 +1,40 @@
+<template name="sidebar">
+
+	<div class="btn-group">
+
+    <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Themes <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu themes" role="menu"></ul>-->
+
+	</div>
+
+  <div class="col-md-12">
+    {{> userInfos}}
+  </div>
+
+  <div class="col-md-12">
+    {{> onlineUsers}}
+  </div>
+  
+  <div class="col-md-12">
+
+    <!-- Make calls to others -->
+    <div id="step2">
+      <h3>Make a call</h3>
+      <div class="pure-form">
+        <input type="text" placeholder="Call user id..." id="callto-id">
+        <a href="#" class="btn btn-success" id="make-call">Call</a>
+      </div>
+    </div>
+
+    <!-- Call in progress -->
+    <div id="step3">
+      <p>Currently in call with <span id="their-id">...</span></p>
+      <p><a href="#" class="btn btn-danger" id="end-call">End call</a></p>
+    </div>
+
+  </div>
+
+</template>

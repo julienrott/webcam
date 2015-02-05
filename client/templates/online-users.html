@@ -1,0 +1,14 @@
+<template name="onlineUsers">
+
+	<h4>Users connectés</h4>
+
+	{{#each onlineUsers}}
+		<div class="label {{labelClass}}">{{username}}</div>
+		{{#if displayCallButton}}
+			<div>
+				<button type="button" class="btn btn-default">Appeler</button>
+			</div>
+		{{/if}}
+	{{/each}}
+
+</template>
